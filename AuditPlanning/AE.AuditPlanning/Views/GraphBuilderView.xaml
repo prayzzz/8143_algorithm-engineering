@@ -1,0 +1,117 @@
+﻿<UserControl x:Class="AE.AuditPlanning.Views.GraphBuilderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:keyValue="clr-namespace:AE.AuditPlanning.Controls.KeyValue"
+             xmlns:models="clr-namespace:AE.AuditPlanning.Logic.Models;assembly=AE.AuditPlanning.Logic"
+             mc:Ignorable="d" 
+             Background="White"
+             x:Name="GraphBuilderUserControl"
+             DataContext="{Binding Source={StaticResource Locator}, Path=GraphBuilder}">
+
+    <UserControl.Resources>
+        <CompositeCollection x:Key="Col">
+            <CollectionContainer Collection="{Binding DataContext.Model.Nodes, Source={x:Reference GraphBuilderUserControl}}"/>
+            <CollectionContainer Collection="{Binding DataContext.Model.Edges, Source={x:Reference GraphBuilderUserControl}}"/>
+        </CompositeCollection>
+
+        <DataTemplate DataType="{x:Type models:NodeModel}">
+            <Ellipse Height="{Binding NodeSize}" Width="{Binding NodeSize}" Fill="Black" />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type models:EdgeModel}">
+            <Line X1="{Binding StartX}" Y1="{Binding StartY}" X2="{Binding EndX}" Y2="{Binding EndY}" StrokeThickness="1" Stroke="Black" />
+        </DataTemplate>
+        
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400" />
+            <ColumnDefinition Width="500" />
+        </Grid.ColumnDefinitions>
+        
+        <StackPanel Grid.Column="0">
+            <keyValue:KeyValueControl Key="Startort" Value="{Binding Model.StartLocation}"/>
+            <WrapPanel>
+                <keyValue:KeyValueControl Key="JSON Datei:" Value="{Binding Model.FilePath}" Width="300" />
+                <Button Content="Durchsuchen" Command="{Binding BrowseCommand}" />
+            </WrapPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <Button Content="Erzeuge Graph" Command="{Binding BuildGraphCommand}" />
+                    <Button Content="Nächster Nachbar" Command="{Binding NearestNeighbourCommand}" />
+                    <Button Content="ClarkWright" Command="{Binding ClarkWrightCommand}" />
+                </StackPanel>
+                <Grid Grid.Column="1">
+                    <StackPanel>
+                        <WrapPanel>
+                            <Label Content="Knoten" />
+                            <Label Content="{Binding Model.Nodes.Count, Mode=OneWay}" />
+                        </WrapPanel>
+                        <WrapPanel>
+                            <Label Content="Nächster Nachbar:" />
+                            <Label Content="{Binding Model.NearestNeighbour, Mode=OneWay}" />
+                            <Label Content="km" />
+                        </WrapPanel>
+                        <WrapPanel>
+                            <Label Content="Clark Wright:" />
+                            <Label Content="{Binding Model.ClarkWright, Mode=OneWay}" />
+                            <Label Content="km" />
+                        </WrapPanel>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </StackPanel>
+        
+        <Border BorderThickness="1" BorderBrush="Black" Padding="1" Margin="4" Grid.Column="1">
+            <ListBox>
+                <ListBox.ItemsSource>
+                    <StaticResource ResourceKey="Col"/>
+                </ListBox.ItemsSource>
+                <ListBox.Template>
+                    <ControlTemplate>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                            <Border>
+                                <Border.Background>
+                                    <VisualBrush TileMode="Tile" Viewport="0,0,50,50" ViewportUnits="Absolute" Viewbox="0,0,50,50" ViewboxUnits="Absolute">
+                                        <VisualBrush.Visual>
+                                            <Border BorderThickness="0,0,1,1" BorderBrush="LightGray"  Width="50" Height="50" />
+                                        </VisualBrush.Visual>
+                                    </VisualBrush>
+                                </Border.Background>
+                                <ItemsPresenter/>
+                            </Border>
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </ListBox.Template>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas IsItemsHost="True" Background="#01FFFFFF" Height="425">
+                            <Canvas.RenderTransform>
+                                <TranslateTransform X="-275" Y="2350" />
+                            </Canvas.RenderTransform> 
+                        </Canvas>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                        <Setter Property="Canvas.Bottom" Value="{Binding Y}"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <ContentPresenter x:Name="Content"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+        </Border>
+    </Grid>
+</UserControl>

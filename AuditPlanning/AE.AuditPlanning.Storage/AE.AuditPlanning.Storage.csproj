@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BAA869CB-469D-49ED-8590-42C878F84E29}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AE.AuditPlanning.Storage</RootNamespace>
+    <AssemblyName>AE.AuditPlanning.Storage</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entities\Customer.cs" />
+    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\GeoLocation.cs" />
+    <Compile Include="Entities\Graph\ArrayGraph.cs" />
+    <Compile Include="Entities\Graph\Edge.cs" />
+    <Compile Include="Entities\Graph\Exceptions\EdgeException.cs" />
+    <Compile Include="Entities\Graph\Graph.cs" />
+    <Compile Include="Entities\Graph\IGraph.cs" />
+    <Compile Include="Entities\Graph\Node.cs" />
+    <Compile Include="Entities\HubGraph\HubGraph.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Loader\CsvLoader.cs" />
+    <Compile Include="Loader\CustomerLoader.cs" />
+    <Compile Include="Converter\CsvToJsonConverter.cs" />
+    <Compile Include="Loader\JsonHelper.cs" />
+    <Compile Include="Repositories\GeoLocationRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\Repository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AE.AuditPlanning.Common\AE.AuditPlanning.Common.csproj">
+      <Project>{7675BAFC-3DA6-4F80-8262-2410D30C2DF4}</Project>
+      <Name>AE.AuditPlanning.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AE.AuditPlanning.Connectivity\AE.AuditPlanning.Connectivity.csproj">
+      <Project>{3B1D9F67-772D-496A-BB10-93D0547FF72A}</Project>
+      <Name>AE.AuditPlanning.Connectivity</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

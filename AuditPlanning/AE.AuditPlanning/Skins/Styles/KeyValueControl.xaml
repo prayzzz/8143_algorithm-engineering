@@ -1,0 +1,36 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:keyValue="clr-namespace:AE.AuditPlanning.Controls.KeyValue"
+                    xmlns:converter="clr-namespace:AE.AuditPlanning.Converter">
+
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <converter:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+    <converter:CombiningConverter x:Key="InverseBoolToVisibilityConverter" Converter1="{StaticResource InverseBooleanConverter}" Converter2="{StaticResource BooleanToVisibilityConverter}" />
+    
+    <Style x:Key="KeyValueStyle" TargetType="{x:Type keyValue:KeyValueControl}">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type keyValue:KeyValueControl}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="{Binding Key, RelativeSource={RelativeSource TemplatedParent}}"
+                               FontWeight="Bold"
+                               Grid.Column="0" />
+                        
+                        <Label Content="{Binding Value, RelativeSource={RelativeSource TemplatedParent}}"
+                               Visibility="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}"
+                               Grid.Column="1"/>
+                        <TextBox Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
+                                 VerticalContentAlignment="Center"
+                                 Visibility="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolToVisibilityConverter}}"
+                                 Grid.Column="1" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

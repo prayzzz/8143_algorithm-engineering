@@ -1,0 +1,21 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:presentation="clr-namespace:AE.AuditPlanning.Presentation;assembly=AE.AuditPlanning.Presentation"
+                    xmlns:converter="clr-namespace:AE.AuditPlanning.Converter"
+                    mc:Ignorable="d">
+    
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <converter:EnumToImagePathConverter x:Key="EnumToImagePathConverter"/>
+    <converter:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+    <converter:ErrorToMessageConverter x:Key="ErrorToMessageConverter"/>
+    <converter:ToUpperConverter x:Key="ToUpperConverter"/>
+    <converter:DateConverter x:Key="DateConverter"/>
+    <converter:CombiningConverter x:Key="InverseBoolToVisibilityConverter" Converter1="{StaticResource InverseBooleanConverter}" Converter2="{StaticResource BooleanToVisibilityConverter}" />
+
+    <presentation:ViewControllerLocator x:Key="Locator" d:IsDataSource="true" />
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Skins/MainSkin.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>
